@@ -68,22 +68,21 @@ var reset = function () {
 	hero.x = canvas.width / 2;
 	hero.y = canvas.height / 2;
 
-	// Throw the squirrel somewhere on the screen randomly
- 	squirrel.x = 32 + (Math.random() * (canvas.width - 64));
- 	squirrel.y = 32 + (Math.random() * (canvas.height - 64));
-
     for (var i = 1; i <= monstersNum; i++) {
         console.log ("monster number = " + monstersNum)
         // Push monster x, y to array
         console.log ("i= " + i)
-        monster.push(
-            "monster" + i,
-monster.x = 32 + (Math.random() * (canvas.width - 64)),
-	monster.y = 32 + (Math.random() * (canvas.height - 64)));
+        monster.push([
+            monster.x = 32 + (Math.random() * (canvas.width - 64)),
+            monster.y = 32 + (Math.random() * (canvas.height - 64))
+        ]);
         console.log("print array:  " + monster)
+        console.log("print specific monster x coords:" + monster[i][1])
     }
 monstersNum=monstersNum*2;
+    
 };
+
 
 // Draw everything
 var render = function () {
@@ -93,13 +92,17 @@ var render = function () {
 	if (heroReady) {
 		ctx.drawImage(heroImage, hero.x, hero.y);
 	}
-	if (monsterReady) {
-		ctx.drawImage(monsterImage, monster.x, monster.y);
-	}
+    for (var i = 0, len = monster.length; i < len; i++) {
+        if (monsterReady) {
+		ctx.drawImage(monsterImage, monster[i][0], monster[i][1]);
+	   }
+    }
+a
 	if (squirrelReady) {
 		ctx.drawImage(squirrelImage, squirrel.x, squirrel.y);
 	}
-	// Score
+
+// Score
 	ctx.fillStyle = "rgb(250, 250, 250)";
 	ctx.font = "24px Helvetica";
 	ctx.textAlign = "left";
@@ -123,16 +126,18 @@ var update = function (modifier) {
 		hero.x += hero.speed * modifier;
 	}
 
-	// Are they touching?
+// Are they touching?
+    for (var i = 0, len = monster.length; i < len; i++) {
 	if (
-		hero.x <= (monster.x + 32)
-		&& monster.x <= (hero.x + 32)
-		&& hero.y <= (monster.y + 32)
-		&& monster.y <= (hero.y + 32)
+		hero.x <= (monster[i][0] + 32)
+		&& monster[i][0] <= (hero.x + 32)
+		&& hero.y <= (monster[i][1] + 32)
+		&& monster[i][1] <= (hero.y + 32)
 	) {
 		++monstersCaught;
 		reset();
 	}
+    }
 };
 
 
