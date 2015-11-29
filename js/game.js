@@ -67,6 +67,11 @@ addEventListener("keyup", function (e) {
 var reset = function () {
 	hero.x = canvas.width / 2;
 	hero.y = canvas.height / 2;
+    
+    // Throw the squirrel somewhere on the screen randomly
+ 	squirrel.x = 32 + (Math.random() * (canvas.width - 64));
+ 	squirrel.y = 32 + (Math.random() * (canvas.height - 64));
+
 
     for (var i = 1; i <= monstersNum; i++) {
         console.log ("monster number = " + monstersNum)
